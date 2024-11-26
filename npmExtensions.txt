@@ -1,0 +1,1 @@
+npm i ejs express express-session moment nodemon socket.io gitignore
