@@ -1,4 +1,3 @@
-
 <%-include('header')%>
 
 <a href="https://turr.edu.hu" target="_blank">
@@ -6,10 +5,6 @@
 </a>
 
 <div class="fullPage fullWidth fullHeight flexColCenter quizsarga">
-    <!--<h1>xdd</h1>
-    <p>User: <%= user %></p>
-    <p>Room: <%= room %></p>-->
-
     <div class="base flexColCenter">
         <div class="questionrow formsMolding flexColCenter">
             <h1 class="question">ciganyok vagyunk?</h1>
@@ -18,21 +13,21 @@
             <div class="answerInput flexColCenter formsMolding">
                 <h3 class="text-light">töpp</h3>
                 <div class="fullWidth  text-center">
-                    
                     <div class="form-floating flexRowCenter fullWidth mb-3">
                         <input type="text" class="form-control border-only-input SZEX" name="answer" id="answer" placeholder="Válasz">
                         <button type="submit" class="btn btn-primary fullHeight kuras ">Gömb</button> 
                     </div>
-
-                        
                 </div>
             </div>
-            <div class="playerList flexColCenter formsMolding" >
-                <h3 class="text-light">Kőrágó</h3>
+            <div class="playerList flexColCenter formsMolding">
+                <h3 class="text-light">Players</h3>
+                <!-- The player list will be populated here -->
             </div>
         </div>
     </div>
 </div>
-
-    
+<script src="/assets/js/game.js"></script>
 <%-include('footer')%>
+
+
+
