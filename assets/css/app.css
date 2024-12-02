@@ -108,9 +108,79 @@ img{
         display: none;
 
     }
+    .quizsarga{
+        display: none;
+    }
+
     img{
         display: block;
         width: 50rem;
         height: 50rem;
     }
+}
+
+.formz{
+    width: 100%;
+    height: 100%;
+    column-gap: 5rem;
+}
+
+.base{
+    width: 80%;
+    height: 80%;
+    padding: 5rem;
+    row-gap: 5rem;
+}
+
+
+.formsMolding{
+    background-color: #3f3f46;
+    border-radius: 15px;
+    background: rgba(63, 63, 70, 0.40);
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid #3f3f46;
+}
+
+.question {     
+    font-size: 2.5rem; /* A kérdés mérete */
+    color: #ffffff; /* Szöveg színe */
+    position: relative; /* Hozz létre réteg a háttérhez */
+    text-align: center;     /* Glow hatás */
+    text-shadow:         0 0 10px rgba(255, 255, 255, 0.5), /* Lágy közeli fény */0 0 20px rgba(255, 255, 255, 0.4), /* Halvány távolabbi fény */0 0 40px rgba(255, 255, 255, 0.2); /* Nagyon halvány szélesebb fény */ }
+
+.questionrow{
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    color: #f4f4f5;
+}
+
+.answerInput{
+    width: 70%;
+    height: 100%;
+    row-gap: 1rem;
+}
+
+.playerList{
+    width: 30%;
+    height: 100%;
+}
+
+.fullPage{
+    background-image: url(../img/quizbg.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+.SZEX{
+    
+    width: 80%;
+    height: 3rem;
+    margin-right: 1rem;
+}
+.kuras{
+    height: 3.6499999999rem;
 }
