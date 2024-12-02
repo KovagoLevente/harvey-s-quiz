@@ -1,31 +1,35 @@
 let usernameField = document.querySelector('#username');
 let roomField = document.querySelector('#room');
 let roomsSelect = document.querySelector('#rooms');
-let loginBtn = document.querySelector('#login');
+
 
 const socket = io();
 
-loginBtn.addEventListener('click', ()=>{
-    if (usernameField.value == ''){
-        alert('Missing username!');
-        return
-    }
+const loginBtn = document.querySelector('#login');
 
-    if (roomField.value == '' && roomsSelect.value == ''){
-        alert('Missing roomname!');
-        return
+loginBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    let usernameField = document.querySelector('#username');
+    let roomField = document.querySelector('#room');
+    let roomsSelect = document.querySelector('#rooms');
+
+    if (usernameField.value === '') {
+        alert('Missing username!');
+        return;
     }
 
     let username = usernameField.value;
-    let room = roomField.value;
-    
-    if (roomsSelect.value != ''){
-        room = roomsSelect.value;
+    let room = roomField.value || roomsSelect.value;
+
+    if (!room) {
+        alert('Missing roomname!');
+        return;
     }
 
     document.location.href = `/game/${room}/${username}`;
-
 });
+
 /*
 socket.emit('getRoomList');
 
