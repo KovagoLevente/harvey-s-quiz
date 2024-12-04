@@ -23,9 +23,12 @@ function roomLeave(room){
     return rooms;
 }
 
-function getRoomUsers(room){
-    return users.filter(user => user.room === room );
+function getRoomUsers(room) {
+    const roomUsers = users.filter(user => user.room === room);
+    console.log(`Users in room ${room}:`, roomUsers);  
+    return roomUsers;
 }
+
 
 function getCurrentUser(id){
     return users.find(user => user.id === id);
