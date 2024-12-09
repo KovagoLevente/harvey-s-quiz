@@ -1,30 +1,42 @@
-let playerList = document.querySelector('.playerList');
-
-// Debugging log: to see the values passed from EJS
-console.log('Sending joinRoom event with:', user, room);
-
 const socket = io();
 
-// Emit the 'joinRoom' event with the username and room after the page loads
+// Játékos csatlakozása a szobához
 socket.emit('joinRoom', user, room);
 
-// Listen for updates to the room's user list
+// Frissíti a játékosok listáját
 socket.on('updateRoomUsers', (roomUsers) => {
-    console.log('Received updateRoomUsers:', roomUsers);
+    const playerList = document.querySelector('.playerList');
+    playerList.innerHTML = ''; // Előző lista törlése
 
-    // Clear the current list in playerList
-    playerList.innerHTML = '';
-
-    // Create a new unordered list
-    let ul = document.createElement('ul');
+    const ul = document.createElement('ul');
     playerList.appendChild(ul);
 
-    // Loop through the list of users in the room
     roomUsers.forEach(roomUser => {
-        console.log('Adding player:', roomUser.username);  // Debugging line to see each user being added
-        let li = document.createElement('li');
-        li.innerText = roomUser.username;  // Display the username
+        const li = document.createElement('li');
+        li.innerText = roomUser.username;
         ul.appendChild(li);
-        ul.classList.add("text-light")
+        ul.classList.add('text-light');
     });
 });
+
+// A visszaszámlálás megjelenítése
+socket.on('countdown', (timeLeft) => {
+    document.querySelector('h1').innerText = `A játék ${timeLeft} másodperc múlva indul...`;
+});
+
+// A játék kezdete
+socket.on('startGame', (data) => {
+    document.querySelector('h1').innerText = 'A játék elkezdődött!';
+    console.log('Questions received:', data.questions);
+
+    // Kérdések megjelenítése
+    displayQuestion(data.questions[0]);
+});
+
+// Kérdések kezelése
+function displayQuestion(question) {
+    const questionElem = document.querySelector('.question');
+    questionElem.innerText = question.question;  // Kérdés kiírása
+
+    // További logika a válaszokhoz...
+}

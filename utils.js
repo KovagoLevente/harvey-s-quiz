@@ -1,41 +1,23 @@
 let users = [];
 let rooms = [];
 
-function userJoin(id, username, room){
+function userJoin(id, username, room) {
     const user = { id, username, room };
     users.push(user);
     return user;
 }
 
-function userLeave(id){
-    let idx = users.findIndex(user => user.id === id);
-    if (idx != -1){
-        users.splice(idx, 1);
-    }
-    return users;
-}
-
-function roomLeave(room){
-    let idx = rooms.findIndex(item => item === room);
-    if (idx > -1){
-        rooms.splice(idx, 1);
-    }
-    return rooms;
+function userLeave(id) {
+    const index = users.findIndex(user => user.id === id);
+    if (index !== -1) return users.splice(index, 1)[0];
 }
 
 function getRoomUsers(room) {
-    const roomUsers = users.filter(user => user.room === room);
-    console.log(`Users in room ${room}:`, roomUsers);  
-    return roomUsers;
+    return users.filter(user => user.room === room);
 }
 
-
-function getCurrentUser(id){
-    return users.find(user => user.id === id);
-}
-
-function inRoomsList(room){
-    return rooms.find(item => item === room ) ? true : false;
+function inRoomsList(room) {
+    return rooms.includes(room);
 }
 
 module.exports = {
@@ -43,8 +25,6 @@ module.exports = {
     rooms,
     userJoin,
     userLeave,
-    roomLeave,
     getRoomUsers,
-    getCurrentUser,
-    inRoomsList
-}
+    inRoomsList,
+};
