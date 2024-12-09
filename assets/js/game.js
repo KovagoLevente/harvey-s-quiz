@@ -40,3 +40,25 @@ function displayQuestion(question) {
 
     // További logika a válaszokhoz...
 }
+
+socket.on('displayQuestion', (question) => {
+    displayQuestion(question);
+});
+document.getElementById('submitAnswerBtn').addEventListener('click', function (e) {
+    e.preventDefault(); // Ne küldje el a formot alapértelmezetten
+
+    const answer = document.getElementById('answer').value;
+    if (answer.trim() === '') {
+        alert('Kérlek adj meg egy választ!');
+        return;
+    }
+
+    // Az aktuális kérdés indexét ki kell választani, például:
+    const questionIndex = 0; // Ezt dinamikusan kell majd kezelni
+
+    // A válasz elküldése a szervernek
+    socket.emit('submitAnswer', { room: room, username: user, answer: answer, questionIndex: questionIndex });
+
+    // Tisztítjuk az input mezőt
+    document.getElementById('answer').value = '';
+});
