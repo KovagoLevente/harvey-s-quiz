@@ -29,10 +29,18 @@ img{
     align-content: center;
     align-items: center;
 }
-.flexColEnd{
+.flexColStart{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    justify-items: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+.flexRowStart{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
     justify-items: flex-start;
     align-content: flex-start;
     align-items: flex-start;
@@ -198,4 +206,13 @@ img{
     color: #ffa500; /* Narancssárga figyelemfelkeltés */
     text-align: center;
     margin-top: 10px;
+}
+.smallBox{
+    width: 12rem;
+    height: 12rem;
+    margin-bottom: 3rem;
+}
+.infos{
+    column-gap: 5rem;
+    width:78.5%;
 }
