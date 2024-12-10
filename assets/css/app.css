@@ -14,6 +14,7 @@ html, body{
 img{
     display: none;
 }
+
 .fullWidth{
     width: 100%;
 }
@@ -128,7 +129,7 @@ img{
 .base{
     width: 80%;
     height: 80%;
-    padding: 5rem;
+    padding: 1rem;
     row-gap: 5rem;
 }
 
@@ -183,4 +184,18 @@ img{
 }
 .kuras{
     height: 3.6499999999rem;
+}
+
+
+.countdownTimer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#timeRemaining {
+    font-size: 16px;
+    /*font-weight: bold;*/
+    color: #ffa500; /* Narancssárga figyelemfelkeltés */
+    text-align: center;
+    margin-top: 10px;
 }

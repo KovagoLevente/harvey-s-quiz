@@ -20,9 +20,22 @@ socket.on('updateRoomUsers', (roomUsers) => {
 });
 
 // A visszaszámlálás megjelenítése
+// Visszaszámlálás kezelése
 socket.on('countdown', (timeLeft) => {
-    document.querySelector('h1').innerText = `A játék ${timeLeft} másodperc múlva indul...`;
+    const timeElem = document.getElementById('timeRemaining');
+    timeElem.innerText = `${timeLeft} másodperc`;
+
+    const countdown = setInterval(() => {
+        timeLeft -= 1;
+        timeElem.innerText = `${timeLeft} másodperc`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timeElem.innerText = 'A kérdések hamarosan kezdődnek...';
+        }
+    }, 1000);
 });
+
 
 // A játék kezdete
 socket.on('startGame', (data) => {
@@ -33,13 +46,97 @@ socket.on('startGame', (data) => {
     displayQuestion(data.questions[0]);
 });
 
-// Kérdések kezelése
+// Kérdés megjelenítése és visszaszámláló indítása
 function displayQuestion(question) {
     const questionElem = document.querySelector('.question');
     questionElem.innerText = question.question;  // Kérdés kiírása
 
-    // További logika a válaszokhoz...
+    const timeElem = document.getElementById('timeRemaining');
+    let timeLeft = 10; // Például 10 másodperc visszaszámlálás
+
+    // Frissítjük a visszaszámlálót minden másodpercben
+    const countdown = setInterval(() => {
+        timeLeft -= 1;
+        timeElem.innerText = `${timeLeft} másodperc`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timeElem.innerText = 'Idő lejárt!';
+        }
+    }, 1000);
+
+    // Automatikusan továbblép a következő kérdésre az idő lejárta után
+    setTimeout(() => {
+        clearInterval(countdown);
+        timeElem.innerText = 'Következő kérdés...';
+        // További logika, például a következő kérdés kezelése
+    }, 10000);
 }
+function startNextQuestion(room, questionIndex) {
+    const questions = roomQuestions[room]; // Get questions for the room
+    if (questionIndex < questions.length) {
+        console.log('Displaying question:', questions[questionIndex]);
+        io.to(room).emit('displayQuestion', questions[questionIndex]); // Emit the current question to the room
+        
+        // Set up the next question after 10 seconds
+        setTimeout(() => {
+            console.log(`Moving to next question after 10 seconds.`);
+            startNextQuestion(room, questionIndex + 1); // Proceed to the next question
+        }, 10000); // Wait for 10 seconds before moving to the next question
+    } else {
+        // No more questions, end the game
+        gameOver(room); // Call the gameOver function
+    }
+}
+
+function startGame(room) {
+    pool.query('SELECT * FROM questions ORDER BY RAND() LIMIT 10', (err, result) => {
+        if (err) {
+            console.error('Error fetching questions:', err);
+            io.to(room).emit('errorMessage', 'Failed to load questions.');
+            return;
+        }
+        if (result.length === 0) {
+            io.to(room).emit('errorMessage', 'No questions available.');
+            return;
+        }
+
+        // Save questions in the room context, including the correct answer
+        roomQuestions[room] = result;
+
+        // Várakozás 1 percig, mielőtt az első kérdést elküldjük
+        io.to(room).emit('countdown', 60); // Megjelenítjük a visszaszámlálást a klienseken
+        setTimeout(() => {
+            // Start the first question after 1 minute
+            io.to(room).emit('startGame', { questions: result });
+            startNextQuestion(room, 0); // Start the first question (index 0)
+        }, 60000); // 60 másodperc várakozás
+    });
+}
+function gameOver(room) {
+    // Stop any remaining timers
+    if (timers[room]) {
+        clearTimeout(timers[room]);
+        delete timers[room];
+    }
+    if (answerTimers[room]) {
+        delete answerTimers[room];
+    }
+    if (roomQuestions[room]) {
+        delete roomQuestions[room];
+    }
+
+    // Emit end of game message
+    io.to(room).emit('gameOver');
+}
+
+
+
+// Ha a szerver új kérdést küld, újraindítjuk a visszaszámlálót
+socket.on('displayQuestion', (question) => {
+    displayQuestion(question);
+});
+
 
 socket.on('displayQuestion', (question) => {
     displayQuestion(question);
