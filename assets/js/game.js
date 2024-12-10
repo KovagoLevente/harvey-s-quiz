@@ -46,6 +46,8 @@ socket.on('startGame', (data) => {
     displayQuestion(data.questions[0]);
 });
 
+
+
 // Kérdés megjelenítése és visszaszámláló indítása
 function displayQuestion(question) {
     const questionElem = document.querySelector('.question');

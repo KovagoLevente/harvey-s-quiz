@@ -75,13 +75,14 @@ io.on('connection', (socket) => {
         if (roomUsers.length === 1) {
             timers[room] = setTimeout(() => {
                 startGame(room);
-            }, 5000); // 5 másodperc várakozás a szoba feltöltése után
+            }, 10000); // 10 másodperc várakozás a szoba feltöltése után
             io.to(room).emit('countdown', 10); // Várakozás a játék indítása előtt
         } else if (roomUsers.length === 5) {
             clearTimeout(timers[room]);
             delete timers[room];
             startGame(room);
         }
+        
     });
 
     socket.on('submitAnswer', ({ room, username, answer, questionIndex }) => {
